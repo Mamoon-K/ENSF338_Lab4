@@ -29,7 +29,6 @@ def track_list_growth():
 
 # Step 3 & 4: Measure time taken to grow from S to S+1 and S-1 to S
 def measure_growth_time(lst, num_trials=1000):
-    S = len(lst)
     
     # Measure time from S to S+1
     time_s_to_s1 = []
