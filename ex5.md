@@ -4,8 +4,10 @@
 
 When measuring the execution time of a program, factors that introduce inconsistencies are background processes running 
 on the system may interfere with performance, causing fluctuations, and CPU scheduling by the operating system can slow execution.
-In Python, garbage collection can create additional variability. 
-Additionally, cache effects may improve execution times when a function is repeatedly executed (discussed in class).
+In Python, garbage collection can create additional variability  because it runs automatically, pausing normal program execution
+to reclaim memory by freeing unused objects.
+Additionally, cache effects may improve execution times when a function is repeatedly executed (discussed in lecture).
+
 
 The timeit and repeat functions try to handle these issues in different ways.
 
@@ -14,7 +16,7 @@ the number parameter, and returns the total execution time. This approach helps 
 measurement noise by averaging over multiple runs, but it does not provide insight into how execution
 times vary between different trials.
 
-On the other hand, timeit.repeat() runs multiple independent timing experiments,
+timeit.repeat() runs multiple independent timing experiments,
 each executing the function multiple times. It uses the repeat parameter, and it returns a collection of execution times,
 allowing us to analyze variability and detect outliers. This method is particularly useful when system-level noise may
 affect performance, as it provides a broader view of execution time distribution.
