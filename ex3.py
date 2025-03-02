@@ -59,6 +59,7 @@ def plot_results(time_s_to_s1, time_s1_to_s):
     plt.ylabel("Frequency")
     plt.title("Time Distribution of List Expansion")
     plt.show()
+    plt.savefig("plots.png")
 
 # Run tests
 lst = track_list_growth()
