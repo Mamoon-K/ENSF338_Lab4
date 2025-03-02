@@ -32,7 +32,7 @@ Binary Search: In the worst case, the search space halves each iteration, so to 
 # Generate a large sorted array (10000 elements)
 arr = list(range(10000))
 
-# Number of trials (≥ 100 measurements)
+# Number of trials (100 measurements)
 num_trials = 100
 
 # Store execution times
