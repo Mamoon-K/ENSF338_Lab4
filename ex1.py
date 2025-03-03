@@ -113,11 +113,12 @@ class Array:
         
         return -1
 
-
-arr = Array()
-arr.append(4)
-arr.append(5)
-arr.append(9)
+# Question 4 Answer
+"""
+The complexity of binary search in a linked list is O(n). This is due to the fact that finding the middle element of a given linked list requires
+traversing the linked list. This action takes O(n) time compared to O(1) for an array which has the advantage of indexing. Since O(n) is a larger time 
+complexity than O(log(n)) it takes precedence here and results in the overall complexity being O(n).
+"""
 
 linkedListTimes1000 = []
 linkedListTimes2000 = []
@@ -155,27 +156,71 @@ for num in randNums4000:
 for num in randNums8000:
     linkedListTimes8000.append(timeit.timeit(lambda: linkedLists[3].binary_search(num), number=100) / 100)
 
-times = linkedListTimes1000 + linkedListTimes2000 + linkedListTimes4000 + linkedListTimes8000
-randNums = randNums1000 + randNums2000 + randNums4000 + randNums8000
+# Get the average time for 1000, 2000, 4000, and 8000
+avg1000TimeLists = sum(linkedListTimes1000) / len(linkedListTimes1000)
+avg2000TimeLists = sum(linkedListTimes2000) / len(linkedListTimes2000)
+avg4000TimeLists = sum(linkedListTimes4000) / len(linkedListTimes4000)
+avg8000TimeLists = sum(linkedListTimes8000) / len(linkedListTimes8000)
+
+timesLists = [avg1000TimeLists, avg2000TimeLists, avg4000TimeLists, avg8000TimeLists]
+inputVals = [1000, 2000, 4000, 8000]
 
 def linear(x, a, b):
     return a * x + b  # Linear fit
 
 # Fit the curve
-params, covariance = curve_fit(linear, randNums, times)
+params, covariance = curve_fit(linear, inputVals, timesLists)
 
-# Generate smooth x values for plotting
-predicted_y = linear(np.array(randNums), *params)
+predicted_y_lists = linear(np.array(inputVals), *params)
+
+# Test arrays for lists of sizes 1000, 2000, 4000, and 8000
+arrays = []
+for i in [1, 2, 4, 8]:
+    arr = Array()
+    for j in range(1, (i * 1000) + 1):
+        arr.append(j)
+
+    arrays.append(arr)
+
+for num in randNums1000:
+    arrayTimes1000.append(timeit.timeit(lambda: arrays[0].binary_search(num), number=100) / 100)
+
+for num in randNums2000:
+    arrayTimes2000.append(timeit.timeit(lambda: arrays[1].binary_search(num), number=100) / 100)  
+
+for num in randNums4000:
+    arrayTimes4000.append(timeit.timeit(lambda: arrays[2].binary_search(num), number=100) / 100)
+
+for num in randNums8000:
+    arrayTimes8000.append(timeit.timeit(lambda: arrays[3].binary_search(num), number=100) / 100)
+
+# Get the average time for 1000, 2000, 4000, and 8000
+avg1000TimeArrays = sum(arrayTimes1000) / len(arrayTimes1000)
+avg2000TimeArrays = sum(arrayTimes2000) / len(arrayTimes2000)
+avg4000TimeArrays = sum(arrayTimes4000) / len(arrayTimes4000)
+avg8000TimeArrays = sum(arrayTimes8000) / len(arrayTimes8000)
+
+timesArrays = [avg1000TimeArrays, avg2000TimeArrays, avg4000TimeArrays, avg8000TimeArrays]
+
+# Define a logarithmic function
+def logarithmic(x, a, b):
+    return a * np.log(x) + b  # Logarithmic fit 
+
+# Fit the curve
+params2, covariance2 = curve_fit(logarithmic, inputVals, timesArrays)
+
+# Predict y values using the fitted parameters
+predicted_y_arrays = logarithmic(np.array(inputVals), *params2)
 
 plt.figure(figsize=(12, 5))
-plt.scatter(randNums, times, s=10, label="Linked List", color="orange")
-plt.plot(randNums, predicted_y, linestyle="--", label="Linked List Linear Fit", color="blue")
-plt.xlabel("Numbers")
+plt.scatter(inputVals, timesLists, s=10, label="Linked List", color="orange")
+plt.scatter(inputVals, timesArrays, s=10, label="Array", color="purple")
+plt.plot(inputVals, predicted_y_lists, linestyle="--", label="Linked List Linear Fit", color="blue")
+plt.plot(inputVals, predicted_y_arrays, linestyle="--", label="Array Logarithmic Fit", color="red")
+plt.xlabel("Input Numbers")
 plt.ylabel("Times to find using binary search (s)")
-plt.title("Linked Lists of Varying Sizes Binary Search Times")
+plt.title("Linked List vs Array Times for Binary Search at Various Input Sizes")
 plt.legend()
 plt.grid()
 
 plt.show()
-
-# Test arrays for lists of sizes 1000, 2000, 4000, and 8000
